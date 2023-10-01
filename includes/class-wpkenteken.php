@@ -6,11 +6,11 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       http://example.com
+ * @link       https://windt.dev
  * @since      1.0.0
  *
- * @package    WPKenteken
- * @subpackage WPKenteken/includes
+ * @package    Wpkenteken
+ * @subpackage Wpkenteken/includes
  */
 
 /**
@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    WPKenteken
- * @subpackage WPKenteken/includes
- * @author     Your Name <email@example.com>
+ * @package    Wpkenteken
+ * @subpackage Wpkenteken/includes
+ * @author     Sander van der WIndt <sander@windt.dev>
  */
-class WPKenteken {
+class Wpkenteken {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class WPKenteken {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      WPKenteken_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Wpkenteken_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,9 +44,9 @@ class WPKenteken {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $wpkenteken    The string used to uniquely identify this plugin.
+	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
-	protected $wpkenteken;
+	protected $plugin_name;
 
 	/**
 	 * The current version of the plugin.
@@ -67,12 +67,12 @@ class WPKenteken {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+		if ( defined( 'WPKENTEKEN_VERSION' ) ) {
+			$this->version = WPKENTEKEN_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->wpkenteken = 'plugin-name';
+		$this->plugin_name = 'wpkenteken';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -86,10 +86,10 @@ class WPKenteken {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - WPKenteken_Loader. Orchestrates the hooks of the plugin.
-	 * - WPKenteken_i18n. Defines internationalization functionality.
-	 * - WPKenteken_Admin. Defines all hooks for the admin area.
-	 * - WPKenteken_Public. Defines all hooks for the public side of the site.
+	 * - Wpkenteken_Loader. Orchestrates the hooks of the plugin.
+	 * - Wpkenteken_i18n. Defines internationalization functionality.
+	 * - Wpkenteken_Admin. Defines all hooks for the admin area.
+	 * - Wpkenteken_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -103,33 +103,33 @@ class WPKenteken {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-plugin-name-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wpkenteken-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-plugin-name-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wpkenteken-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-plugin-name-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wpkenteken-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-plugin-name-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wpkenteken-public.php';
 
-		$this->loader = new WPKenteken_Loader();
+		$this->loader = new Wpkenteken_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the WPKenteken_i18n class in order to set the domain and to register the hook
+	 * Uses the Wpkenteken_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -137,7 +137,7 @@ class WPKenteken {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new WPKenteken_i18n();
+		$plugin_i18n = new Wpkenteken_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -152,7 +152,7 @@ class WPKenteken {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new WPKenteken_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Wpkenteken_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -168,7 +168,7 @@ class WPKenteken {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new WPKenteken_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Wpkenteken_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -192,14 +192,14 @@ class WPKenteken {
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
-		return $this->wpkenteken;
+		return $this->plugin_name;
 	}
 
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    WPKenteken_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Wpkenteken_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

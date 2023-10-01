@@ -1,45 +1,62 @@
 <?php
 
 /**
- * Plugin Name
+ * The plugin bootstrap file
  *
- * @package           WPKenteken
- * @author            sandervdw
- * @copyright         2023 Windt Webdesign
- * @license           GPL-2.0-or-later
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              https://windt.dev
+ * @since             1.0.0
+ * @package           Wpkenteken
  *
  * @wordpress-plugin
  * Plugin Name:       WPKenteken
+ * Plugin URI:        https://github.com/sandervdwnl/wpkenteken-plugin
  * Description:       Fill your form with the car information by filling the car registration number.
- * Version:           0.9
- * Requires at least: 6.1
- * Requires PHP:      8.1
- * Author:            sandervdwnl
- * Author URI:        https://windt.dev
- * Text Domain:       wpkenteken
- * License:           GPL v2 or later
+ * Version:           1.0.0
+ * Author:            Sander van der WIndt
+ * Author URI:        https://windt.dev/
+ * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Update URI:        https://example.com/my-plugin/
+ * Text Domain:       wpkenteken
+ * Domain Path:       /languages
  */
 
-
-
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
 
-// Plugin name
-define('PLUGIN_NAME', 'WPKenteken');
+/**
+ * Currently plugin version.
+ * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Rename this for your plugin and update it as you release new versions.
+ */
+define( 'WPKENTEKEN_VERSION', '1.0.0' );
 
-// Plugin version
-define('PLUGIN_VERSION', '0.9');
+/**
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-wpkenteken-activator.php
+ */
+function activate_wpkenteken() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wpkenteken-activator.php';
+	Wpkenteken_Activator::activate();
+}
 
-// Plugin author
-define('PLUGIN_AUTHOR', 'sandervdwnl');
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-wpkenteken-deactivator.php
+ */
+function deactivate_wpkenteken() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wpkenteken-deactivator.php';
+	Wpkenteken_Deactivator::deactivate();
+}
 
-// Pluginbeschrijving
-define('PLUGIN_DESCRIPTION', 'Deze plugin haalt het kenteken op uit de Open Data API van RDW. Met de opgehaalde informatie kun je je formulier vullen.');
+register_activation_hook( __FILE__, 'activate_wpkenteken' );
+register_deactivation_hook( __FILE__, 'deactivate_wpkenteken' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -54,12 +71,12 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wpkenteken.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    0.09
+ * @since    1.0.0
  */
-function run_plugin_name() {
+function run_wpkenteken() {
 
-	$plugin = new WPKenteken();
+	$plugin = new Wpkenteken();
 	$plugin->run();
 
 }
-run_plugin_name();
+run_wpkenteken();
