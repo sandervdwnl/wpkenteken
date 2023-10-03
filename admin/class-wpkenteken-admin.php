@@ -110,20 +110,70 @@ class Wpkenteken_Admin {
 	 */
 
 	public function wpkenteken_options_menu( ) {
+
+		add_options_page( 
+			'WPKenteken', // page_title. 
+			'WPKenteken', //menu title.
+			'manage_otions', // capabilities.
+			'wp_kenteken_options', // menu slug. 
+			'add_submenu_page', // callback (optional).
+			null // position in menu. 
+		);
 		
 		add_submenu_page( 
-			'options-general.php', 
-			'WPKenteken Options', 
-			'WPKenteken Options', 
-			'manage_options', 
-			'wpkenteken',
+			'wp_kenteken_options', // parent_slug.
+			'WPKenteken Options', // page_title.
+			'WPKenteken', // menu_title.
+			'manage_options', // capabilities.
+			'wpkenteken', // menu_slug.
 			array( $this, 'show_options_page' )
 		);
+
+
 	}
 
-	public function show_options_page() {
-		include plugin_dir_path( __FILE__ ) . '/partials/wpkenteken-admin-display.php';
+	// public function show_options_page() {
+		
+	// 	include plugin_dir_path( __FILE__ ) . '/partials/wpkenteken-admin-display.php';
+	// }
+
+	public function wpkenteken_register_setting_init() {
+		
+		register_setting( 
+			'general', // wp option_group (general. reading etc.).
+			'rdw_api_key', // option_name.
+			array( 'type' => 'string' ) // args.
+		);
+
+		add_settings_section( 
+			'wpkenteken_admin_settings_section', // id.
+			'RDW API Key', // title for heading
+			array( $this, 'wpkenteken_add_settings_section_callback' ), // callback for echoing content between fields and heading.
+			'general', // wp options page title (generak, reading etc.).
+			array() // args (optional).
+		);
+
+		add_settings_field( 
+			'api_key_value', // id. 
+			'RDW Open Data API Key', // title
+			array( $this, 'wpkenteken_add_settings_field_callback' ), // callback 
+			'general', // page (general, reading etc.).
+			'wpkenteken_admin_settings_section', // slugname of section
+			array(), // args (optional)
+		);
+
 	}
 
+	public function wpkenteken_add_settings_section_callback() {
+		esc_html_e( 'RDW Open Data API Settings' );
+	}
+
+	public function wpkenteken_add_settings_field_callback() {
+
+		$setting = get_option( 'rdw_api_key' );
+		?>
+		<input type="text" name="pkenteken_rdw_api_key" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>"
+		<?php
+	}
 	
 }
