@@ -47,6 +47,11 @@ class Wpkenteken_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
+
+	/**
+	 * Set class properties
+	 */
+
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
@@ -100,4 +105,25 @@ class Wpkenteken_Admin {
 
 	}
 
+	/**
+	 * Register sub-menu item for the Admin page.
+	 */
+
+	public function wpkenteken_options_menu( ) {
+		
+		add_submenu_page( 
+			'options-general.php', 
+			'WPKenteken Options', 
+			'WPKenteken Options', 
+			'manage_options', 
+			'wpkenteken',
+			array( $this, 'show_options_page' )
+		);
+	}
+
+	public function show_options_page() {
+		include plugin_dir_path( __FILE__ ) . '/partials/wpkenteken-admin-display.php';
+	}
+
+	
 }

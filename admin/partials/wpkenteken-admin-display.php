@@ -14,3 +14,17 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
+
+<div class="wrap">
+	<h1><?php esc_html_e( 'WPKenteken Options' ); ?></h1>
+	
+	<div class="admin-page-form-wrapper">
+		<form action="" method="post">
+			<label for="RDW API Key">RDW Open Data API Key
+				<input type="text">
+			</label>
+			<input type="submit" value="<?php esc_html_e( 'Submit' ); ?>">
+		</form>
+	</div>
+
+</div>
