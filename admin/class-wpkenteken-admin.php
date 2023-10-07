@@ -105,22 +105,10 @@ class Wpkenteken_Admin {
 
 	}
 
-	
-
-	// public function show_options_page() {
-		
-	// 	include plugin_dir_path( __FILE__ ) . '/partials/wpkenteken-admin-display.php';
-	// }
-
-	
-
-	
-
 
 	/**
-	 * Register sub-menu item for the Admin page.
+	 * Register sub-menu item for the options page in the Options menu.
 	 */
-
 	 public function wpkenteken_options_menu( ) {
 
 		add_options_page( 
@@ -133,6 +121,10 @@ class Wpkenteken_Admin {
 		);	
 	}
 
+	/**
+	 * Adds the form on the options page.
+	 * Called by add_options_page function.
+	 */
 	public function wpkenteken_options_page() {
 
 		?>
@@ -146,14 +138,20 @@ class Wpkenteken_Admin {
 		<?php
 	}
 
+	/**
+	 * Registeres a setting for the DB.
+	 */
 	public function wpkenteken_register_setting_init() {
 		
 		register_setting( 
 			'wpkenteken_options', // wp option_group (general. reading etc.).
-			'wpkenteken_rdw_api_key', // option_name.
+			'wpkenteken_rdw_api_key', // option_name. This is the option name in the wp_options table.
 			array( 'type' => 'string' ) // args.
 		);
 
+		/**
+		 * Options section.
+		 */
 		add_settings_section( 
 			'wpkenteken_admin_settings_section', // id.
 			'RDW API Key', // title for heading
@@ -162,6 +160,9 @@ class Wpkenteken_Admin {
 			array() // args (optional).
 		);
 
+		/**
+		 * Options field.
+		 */
 		add_settings_field( 
 			'api_key_value', // id. 
 			'RDW Open Data API Key', // title
@@ -172,10 +173,17 @@ class Wpkenteken_Admin {
 		);
 	}
 
+	/**
+	 * Callback for options section output.
+	 */
 	public function wpkenteken_add_settings_section_callback() {
 		esc_html_e( 'RDW Open Data API Settings' );
 	}
 
+	/**
+	 * Callback for options field output.
+	 * This adds the fields to the settings form.
+	 */
 	public function wpkenteken_add_settings_field_callback() {
 
 		$setting = get_option( 'wpkenteken_rdw_api_key' );
