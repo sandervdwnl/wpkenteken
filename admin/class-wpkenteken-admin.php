@@ -105,43 +105,52 @@ class Wpkenteken_Admin {
 
 	}
 
-	/**
-	 * Register sub-menu item for the Admin page.
-	 */
-
-	public function wpkenteken_options_menu( ) {
-
-		add_options_page( 
-			'WPKenteken', // page_title. 
-			'WPKenteken', //menu title.
-			'manage_otions', // capabilities.
-			'wp_kenteken_options', // menu slug. 
-			'add_submenu_page', // callback (optional).
-			null // position in menu. 
-		);
-		
-		add_submenu_page( 
-			'wp_kenteken_options', // parent_slug.
-			'WPKenteken Options', // page_title.
-			'WPKenteken', // menu_title.
-			'manage_options', // capabilities.
-			'wpkenteken', // menu_slug.
-			array( $this, 'show_options_page' )
-		);
-
-
-	}
+	
 
 	// public function show_options_page() {
 		
 	// 	include plugin_dir_path( __FILE__ ) . '/partials/wpkenteken-admin-display.php';
 	// }
 
+	
+
+	
+
+
+	/**
+	 * Register sub-menu item for the Admin page.
+	 */
+
+	 public function wpkenteken_options_menu( ) {
+
+		add_options_page( 
+			'WPKenteken Options', // page_title. 
+			'WPKenteken', //menu title.
+			'manage_options', // capabilities.
+			'wpkenteken', // menu slug. 
+			array( $this, 'wpkenteken_options_page' ), // callback (optional) for output.
+			null // position in menu. 
+		);	
+	}
+
+	public function wpkenteken_options_page() {
+
+		?>
+		<form action="options.php" method="post">
+		<?php 
+		settings_fields('wpkenteken_options'); // Outputs hidden inputs.
+		do_settings_sections('wpkenteken'); // Outputs input fields.
+		 ?> 
+		<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
+		</form>
+		<?php
+	}
+
 	public function wpkenteken_register_setting_init() {
 		
 		register_setting( 
-			'general', // wp option_group (general. reading etc.).
-			'rdw_api_key', // option_name.
+			'wpkenteken_options', // wp option_group (general. reading etc.).
+			'wpkenteken_rdw_api_key', // option_name.
 			array( 'type' => 'string' ) // args.
 		);
 
@@ -149,7 +158,7 @@ class Wpkenteken_Admin {
 			'wpkenteken_admin_settings_section', // id.
 			'RDW API Key', // title for heading
 			array( $this, 'wpkenteken_add_settings_section_callback' ), // callback for echoing content between fields and heading.
-			'general', // wp options page title (generak, reading etc.).
+			'wpkenteken', // wp options page title (generak, reading etc.).
 			array() // args (optional).
 		);
 
@@ -157,11 +166,10 @@ class Wpkenteken_Admin {
 			'api_key_value', // id. 
 			'RDW Open Data API Key', // title
 			array( $this, 'wpkenteken_add_settings_field_callback' ), // callback 
-			'general', // page (general, reading etc.).
+			'wpkenteken', // page (general, reading etc.).
 			'wpkenteken_admin_settings_section', // slugname of section
 			array(), // args (optional)
 		);
-
 	}
 
 	public function wpkenteken_add_settings_section_callback() {
@@ -170,9 +178,9 @@ class Wpkenteken_Admin {
 
 	public function wpkenteken_add_settings_field_callback() {
 
-		$setting = get_option( 'rdw_api_key' );
+		$setting = get_option( 'wpkenteken_rdw_api_key' );
 		?>
-		<input type="text" name="pkenteken_rdw_api_key" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>"
+		<input type="text" name="wpkenteken_rdw_api_key" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>">
 		<?php
 	}
 	
