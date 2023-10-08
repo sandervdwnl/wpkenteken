@@ -33,16 +33,22 @@
 
 		$('.wpkenteken-kenteken').focusout(function () {
 
-			// Validate input.
+			// var kenteken = "0001ES";
 
+			// Add node to display warning.
+			if ($('#wpkenteken-warning').length === 0) {
+				$('.wpkenteken-kenteken').append('<div id="wpkenteken-warning"></div>')
+			} else {
+				$('#wpkenteken-warning').text('');
+			}
+
+			// Validate input.
 			const invoer = document.querySelector('.wpkenteken-kenteken > input[type="text"]').value;
-			console.log(invoer);
 			let kenteken = invoer.replace(/[^0-9a-zA-Z]/g, "");
 			kenteken = kenteken.toUpperCase();
-			console.log(kenteken);
 			if (kenteken.length !== 6) {
-				alert('De invoer is ongeldig');
-				return false;
+				$('#wpkenteken-warning').text('Invoer is ongeldig. Probeer het opnieuw.');
+				return false;			 
 			}
 
 			// AJAX request.
@@ -56,21 +62,20 @@
 					"$$app_token": "NnFU01CF99CsjkG7hGMIWIqiC"
 				},
 				success: function (data) {
-					console.log('succes');
 					var response = data[0];
-					console.log(response);
 					if (typeof response !== 'undefined') {
-						console.log(response.merk);
-						console.log(response.model);
-						console.log(response.bouwjaar);
+						// Results found. Fill form fields.
+						console.log(response);
 						document.querySelector('.wpkenteken-merk > input[type="text"]').value = response.merk;
 						document.querySelector('.wpkenteken-model > input[type="text"]').value = response.handelsbenaming;
-						document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);
-						$('.model').val(response.handelsbenaming);
-						var bouwjaar = (response.datum_eerste_toelating).substring(0, 4);
-						$('.bouwjaar').val(bouwjaar);
+						document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);	
 					} else {
-						$('.response').text('Geen resultaat gevonden. Check het ingevoerde kenteken. of probeer het later nog eens.');
+						// No results. Empty form fields and return a warning.
+						console.log(response);
+						document.querySelector('.wpkenteken-merk > input[type="text"]').value = '';
+						document.querySelector('.wpkenteken-model > input[type="text"]').value = '';
+						document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = '';
+						$('#wpkenteken-warning').text('Geen resultaat gevonden. Check het ingevoerde kenteken. of probeer het later nog eens.');
 					}
 				},
 				error: function(data) {
