@@ -35,8 +35,6 @@
 
 		$('.wpkenteken-kenteken').on("focusout", function () {
 
-			// var kenteken = "0001ES";
-
 			// Add node to display warning.
 			if ($('#wpkenteken-warning').length === 0) {
 			
@@ -52,8 +50,7 @@
 			}
 
 			// Validate input.
-			// const invoer = document.querySelector('.wpkenteken-kenteken > input[type="text"]').value; //WPFORMS
-			// const invoer = document.querySelector('.wpkenteken-kenteken').value; //CF7+NF
+
 			if($('.wpkenteken-kenteken').is("input")) {
 				console.log('invoer cf7 of nf');
 				var invoer = $('.wpkenteken-kenteken').val(); //CF7+NF
@@ -95,15 +92,20 @@
 							document.querySelector('.wpkenteken-model > input[type="text"]').value = response.handelsbenaming;
 							document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);	
 						}
-						// document.querySelector('.wpkenteken-merk > input[type="text"]').value = response.merk;
-						// document.querySelector('.wpkenteken-model > input[type="text"]').value = response.handelsbenaming;
-						// document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);	
+						
 					} else {
 						// No results. Empty form fields and return a warning.
 						console.log(response);
-						document.querySelector('.wpkenteken-merk > input[type="text"]').value = '';
-						document.querySelector('.wpkenteken-model > input[type="text"]').value = '';
-						document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = '';
+						if($('.wpkenteken-kenteken').is("input")) { 
+							document.querySelector('.wpkenteken-merk').value = '';
+							document.querySelector('.wpkenteken-model').value = '';
+							document.querySelector('.wpkenteken-bouwjaar').value = '';
+							
+						} else {
+							document.querySelector('.wpkenteken-merk > input[type="text"]').value = '';
+							document.querySelector('.wpkenteken-model > input[type="text"]').value = '';
+							document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = '';
+						}
 						$('#wpkenteken-warning').text('Geen resultaat gevonden. Check het ingevoerde kenteken. of probeer het later nog eens.');
 					}
 				},
