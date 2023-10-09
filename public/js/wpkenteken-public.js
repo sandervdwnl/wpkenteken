@@ -31,19 +31,37 @@
 
 	$(window).load(function () {
 
-		$('.wpkenteken-kenteken').focusout(function () {
+		$(document).ready( function() {
+
+		$('.wpkenteken-kenteken').on("focusout", function () {
 
 			// var kenteken = "0001ES";
 
 			// Add node to display warning.
 			if ($('#wpkenteken-warning').length === 0) {
-				$('.wpkenteken-kenteken').append('<div id="wpkenteken-warning"></div>')
+			
+				if($('.wpkenteken-kenteken').is("input")) {
+					console.log('init cf7 of nf');
+					$('.wpkenteken-kenteken').parent().append('<div id="wpkenteken-warning"></div>');
+				} else {
+					console.log('init wpf');
+					$('.wpkenteken-kenteken').append('<div id="wpkenteken-warning"></div>');
+				}
 			} else {
 				$('#wpkenteken-warning').text('');
 			}
 
 			// Validate input.
-			const invoer = document.querySelector('.wpkenteken-kenteken > input[type="text"]').value;
+			// const invoer = document.querySelector('.wpkenteken-kenteken > input[type="text"]').value; //WPFORMS
+			// const invoer = document.querySelector('.wpkenteken-kenteken').value; //CF7+NF
+			if($('.wpkenteken-kenteken').is("input")) {
+				console.log('invoer cf7 of nf');
+				var invoer = $('.wpkenteken-kenteken').val(); //CF7+NF
+			} else {
+				console.log('invoer wpf');
+				var invoer = document.querySelector('.wpkenteken-kenteken > input[type="text"]').value;
+			}
+			console.log(invoer);
 			let kenteken = invoer.replace(/[^0-9a-zA-Z]/g, "");
 			kenteken = kenteken.toUpperCase();
 			if (kenteken.length !== 6) {
@@ -66,9 +84,20 @@
 					if (typeof response !== 'undefined') {
 						// Results found. Fill form fields.
 						console.log(response);
-						document.querySelector('.wpkenteken-merk > input[type="text"]').value = response.merk;
-						document.querySelector('.wpkenteken-model > input[type="text"]').value = response.handelsbenaming;
-						document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);	
+						if($('.wpkenteken-kenteken').is("input")) { 
+							console.log('update cf7+nf');
+							document.querySelector('.wpkenteken-merk').value = response.merk;
+							document.querySelector('.wpkenteken-model').value = response.handelsbenaming;
+							document.querySelector('.wpkenteken-bouwjaar').value = response.datum_eerste_toelating.substring(0, 4);	
+						} else {
+							console.log('update wpf');
+							document.querySelector('.wpkenteken-merk > input[type="text"]').value = response.merk;
+							document.querySelector('.wpkenteken-model > input[type="text"]').value = response.handelsbenaming;
+							document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);	
+						}
+						// document.querySelector('.wpkenteken-merk > input[type="text"]').value = response.merk;
+						// document.querySelector('.wpkenteken-model > input[type="text"]').value = response.handelsbenaming;
+						// document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);	
 					} else {
 						// No results. Empty form fields and return a warning.
 						console.log(response);
@@ -84,6 +113,7 @@
 			
 			});
 		});
+	});
 	});
 
 })(jQuery);
