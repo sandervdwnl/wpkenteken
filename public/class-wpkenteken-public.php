@@ -96,7 +96,19 @@ class Wpkenteken_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpkenteken-public.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpkenteken-public.js', array('jquery'), $this->version, false );
+
+		wp_enqueue_script( $this->plugin_name );
+
+		$wpkenteken_ajax_nonce = wp_create_nonce( "wpkenteken_ajax_nonce" );
+		$ajax_url = admin_url( 'admin-ajax.php' );
+		$api_key = get_option( 'wpkenteken_rdw_api_key' ) ?? '';
+
+		wp_localize_script( $this->plugin_name, 'wpkenteken_ajax_object', array(
+			'ajax_url' => $ajax_url,
+			'wpkenteken_ajax_nonce' => $wpkenteken_ajax_nonce,
+			'api_key' => $api_key
+		) );
 
 	}
 
