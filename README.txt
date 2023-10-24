@@ -7,7 +7,7 @@ Requires PHP: 8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Retrieve your car's information from the RDW Open Data API and automatically fill in your form with the car's information.
+Retrieve your car's information from the RDW Open Data API (Dutch) and automatically fill in your form with the car's information.
 
 == Description ==
 
@@ -41,6 +41,8 @@ For now the following fields with the fowllowing CSS classes are supported:
 
 This plugin is tested with Contact Form 7, Ninja Forms and WP Forms. 
 If possible, give the container of the field the CSS class. Otherwise give the field itself the CSS class.
+
+Important: fdr Ninja Forms you have to enable Dev Mode in Settings to add CSS classes.
 
 = The information is not retrieved. What is the problem? =
 

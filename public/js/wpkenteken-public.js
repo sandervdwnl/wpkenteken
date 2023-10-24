@@ -41,10 +41,10 @@
 				if ($('#wpkenteken-warning').length === 0) {
 
 					if ($('.wpkenteken-kenteken').is("input")) {
-
+						// CSS class on elements.
 						$('.wpkenteken-kenteken').parent().append('<div id="wpkenteken-warning"></div>');
 					} else {
-
+						// CSS class on containers.
 						$('.wpkenteken-kenteken').append('<div id="wpkenteken-warning"></div>');
 					}
 				} else {
@@ -52,18 +52,15 @@
 					$('#wpkenteken-warning').text('');
 				}
 
-				console.log(wpkenteken_ajax_object);
-
 				// Validate input.
 
 				if ($('.wpkenteken-kenteken').is("input")) {
-					// console.log('invoer cf7 of nf');
+					// CSS class on elements.
 					var invoer = $('.wpkenteken-kenteken').val(); //CF7+NF
 				} else {
-					// console.log('invoer wpf');
-					var invoer = document.querySelector('.wpkenteken-kenteken > input[type="text"]').value;
+					// CSS class on cantainers.
+					var invoer = $('.wpkenteken-kenteken :input').first().val();
 				}
-				// console.log(invoer);
 				let kenteken = invoer.replace(/[^0-9a-zA-Z]/g, "");
 				kenteken = kenteken.toUpperCase();
 				if (kenteken.length !== 6) {
@@ -86,26 +83,67 @@
 						if (typeof response !== 'undefined') {
 							// Results found. Fill form fields.
 							if ($('.wpkenteken-kenteken').is("input")) {
-								document.querySelector('.wpkenteken-merk').value = response.merk;
-								document.querySelector('.wpkenteken-model').value = response.handelsbenaming;
-								document.querySelector('.wpkenteken-bouwjaar').value = response.datum_eerste_toelating.substring(0, 4);
+								// CSS class on elements.
+								let merkElement = $('.wpkenteken-merk');
+								if (merkElement) {
+									merkElement.val(response.merk);
+								}
+								let modelElement = $('.wpkenteken-model');
+								if (modelElement) {
+									modelElement.val(response.handelsbenaming);
+								}
+
+								let bouwjaarElement = $('.wpkenteken-bouwjaar');
+								if (bouwjaarElement) {
+									bouwjaarElement.val(response.datum_eerste_toelating.substring(0, 4));
+								}
 							} else {
-								document.querySelector('.wpkenteken-merk > input[type="text"]').value = response.merk;
-								document.querySelector('.wpkenteken-model > input[type="text"]').value = response.handelsbenaming;
-								document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);
+								// CSS class on containers.
+								let merkElement = $('.wpkenteken-merk :input').first();
+								if (merkElement) {
+									merkElement.val(response.merk);
+								}
+								let modelElement = $('.wpkenteken-model :input').first();
+								if (modelElement) {
+									modelElement.val(response.handelsbenaming);
+								}
+								let bouwjaarElement = $('.wpkenteken-bouwjaar :input').first();
+								if (bouwjaarElement) {
+									bouwjaarElement.val(response.datum_eerste_toelating.substring(0, 4));
+								}
 							}
 
 						} else {
 							// No results. Empty form fields and return a warning.
 							if ($('.wpkenteken-kenteken').is("input")) {
-								document.querySelector('.wpkenteken-merk').value = '';
-								document.querySelector('.wpkenteken-model').value = '';
-								document.querySelector('.wpkenteken-bouwjaar').value = '';
+								// CSS class on elements.
+								let merkElement = $('.wpkenteken-merk');
+								if (merkElement) {
+									merkElement.val('');
+								}
+								let modelElement = $('.wpkenteken-model');
+								if (modelElement) {
+									modelElement.val('');
+								}
 
+								let bouwjaarElement = $('.wpkenteken-bouwjaar');
+								if (bouwjaarElement) {
+									bouwjaarElement.val('');
+								}
 							} else {
-								document.querySelector('.wpkenteken-merk > input[type="text"]').value = '';
-								document.querySelector('.wpkenteken-model > input[type="text"]').value = '';
-								document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = '';
+								// CSS class on containers.
+								let merkElement = $('.wpkenteken-merk :input').first();
+								if (merkElement) {
+									merkElement.val('');
+								}
+								let modelElement = $('.wpkenteken-model :input').first();
+								if (modelElement) {
+									modelElement.val('');
+								}
+								let bouwjaarElement = $('.wpkenteken-bouwjaar :input').first();
+								if (bouwjaarElement) {
+									bouwjaarElement.val('');
+								}
 							}
 							$('#wpkenteken-warning').text(wpkenteken_ajax_object.no_results_message);
 						}

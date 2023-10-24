@@ -1,0 +1,20 @@
+name: Exclude File from Release
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  exclude_file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Exclude file from release
+      run: |
+        git rm --cached phpstan.neon
+        git commit -m "Exclude phpstan.neon from release" || true
+        git push
