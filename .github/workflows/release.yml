@@ -15,8 +15,8 @@ jobs:
 
     - name: Set Git Identity
       run: |
-        git config --global user.email "sandervdwindt@gail.com"
-        git config --global user.name "sam"
+        git config --global user.email "sandervdwindt@gmail.com"
+        git config --global user.name "sandervdwnl"
         
     - name: Exclude file from release
       run: |
