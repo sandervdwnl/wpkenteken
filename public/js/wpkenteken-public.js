@@ -31,94 +31,138 @@
 
 	$(window).load(function () {
 
-		$(document).ready( function() {
+		$(document).ready(function () {
 
-		$('.wpkenteken-kenteken').on("focusout", function () {
+			$('.wpkenteken-kenteken').on("focusout", function () {
 
-			var api_key = wpkenteken_ajax_object.api_key;
+				var api_key = wpkenteken_ajax_object.api_key;
 
-			// Add node to display warning.
-			if ($('#wpkenteken-warning').length === 0) {
-			
-				if($('.wpkenteken-kenteken').is("input")) {
-					// console.log('init cf7 of nf');
-					$('.wpkenteken-kenteken').parent().append('<div id="wpkenteken-warning"></div>');
-				} else {
-					// console.log('init wpf');
-					$('.wpkenteken-kenteken').append('<div id="wpkenteken-warning"></div>');
-				}
-			} else {
-				$('#wpkenteken-warning').text('');
-			}
+				// Add node to display warning.
+				if ($('#wpkenteken-warning').length === 0) {
 
-			// Validate input.
-
-			if($('.wpkenteken-kenteken').is("input")) {
-				// console.log('invoer cf7 of nf');
-				var invoer = $('.wpkenteken-kenteken').val(); //CF7+NF
-			} else {
-				// console.log('invoer wpf');
-				var invoer = document.querySelector('.wpkenteken-kenteken > input[type="text"]').value;
-			}
-			// console.log(invoer);
-			let kenteken = invoer.replace(/[^0-9a-zA-Z]/g, "");
-			kenteken = kenteken.toUpperCase();
-			if (kenteken.length !== 6) {
-				$('#wpkenteken-warning').text('Invoer is ongeldig. Probeer het opnieuw.');
-				return false;			 
-			}
-
-			// AJAX request.
-
-			$.ajax({
-				url: "https://opendata.rdw.nl/resource/qyrd-w56j.json?kenteken=" + kenteken,
-				type: "GET",
-				dataType: 'json',
-				data: {
-					"$limit": 5000,
-					// "$$app_token": "NnFU01CF99CsjkG7hGMIWIqiC"
-					"$$app_token": api_key
-				},
-				success: function (data) {
-					var response = data[0];
-					if (typeof response !== 'undefined') {
-						// Results found. Fill form fields.
-						// console.log(response);
-						if($('.wpkenteken-kenteken').is("input")) { 
-							// console.log('update cf7+nf');
-							document.querySelector('.wpkenteken-merk').value = response.merk;
-							document.querySelector('.wpkenteken-model').value = response.handelsbenaming;
-							document.querySelector('.wpkenteken-bouwjaar').value = response.datum_eerste_toelating.substring(0, 4);	
-						} else {
-							// console.log('update wpf');
-							document.querySelector('.wpkenteken-merk > input[type="text"]').value = response.merk;
-							document.querySelector('.wpkenteken-model > input[type="text"]').value = response.handelsbenaming;
-							document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = response.datum_eerste_toelating.substring(0, 4);	
-						}
-						
+					if ($('.wpkenteken-kenteken').is("input")) {
+						// CSS class on elements.
+						$('.wpkenteken-kenteken').parent().append('<div id="wpkenteken-warning"></div>');
 					} else {
-						// No results. Empty form fields and return a warning.
-						// console.log(response);
-						if($('.wpkenteken-kenteken').is("input")) { 
-							document.querySelector('.wpkenteken-merk').value = '';
-							document.querySelector('.wpkenteken-model').value = '';
-							document.querySelector('.wpkenteken-bouwjaar').value = '';
-							
-						} else {
-							document.querySelector('.wpkenteken-merk > input[type="text"]').value = '';
-							document.querySelector('.wpkenteken-model > input[type="text"]').value = '';
-							document.querySelector('.wpkenteken-bouwjaar > input[type="text"]').value = '';
-						}
-						$('#wpkenteken-warning').text('Geen resultaat gevonden. Check het ingevoerde kenteken. of probeer het later nog eens.');
+						// CSS class on containers.
+						$('.wpkenteken-kenteken').append('<div id="wpkenteken-warning"></div>');
 					}
-				},
-				error: function(data) {
-					alert('Error');
+				} else {
+
+					$('#wpkenteken-warning').text('');
 				}
-			
+
+				// Validate input.
+
+				if ($('.wpkenteken-kenteken').is("input")) {
+					// CSS class on elements.
+					var invoer = $('.wpkenteken-kenteken').val(); //CF7+NF
+				} else {
+					// CSS class on cantainers.
+					var invoer = $('.wpkenteken-kenteken :input').first().val();
+				}
+				let kenteken = invoer.replace(/[^0-9a-zA-Z]/g, "");
+				kenteken = kenteken.toUpperCase();
+				if (kenteken.length !== 6) {
+					$('#wpkenteken-warning').text(wpkenteken_ajax_object.invalid_message);
+					return false;
+				}
+
+				// AJAX request.
+
+				$.ajax({
+					url: "https://opendata.rdw.nl/resource/qyrd-w56j.json?kenteken=" + kenteken,
+					type: "GET",
+					dataType: 'json',
+					data: {
+						"$limit": 5000,
+						"$$app_token": api_key
+					},
+					success: function (data) {
+						var response = data[0];
+						if (typeof response !== 'undefined') {
+							// Results found. Fill form fields.
+							if ($('.wpkenteken-kenteken').is("input")) {
+								// CSS class on elements.
+								let merkElement = $('.wpkenteken-merk');
+								if (merkElement) {
+									merkElement.val(response.merk);
+								}
+								let modelElement = $('.wpkenteken-model');
+								if (modelElement) {
+									modelElement.val(response.handelsbenaming);
+								}
+
+								let bouwjaarElement = $('.wpkenteken-bouwjaar');
+								if (bouwjaarElement) {
+									bouwjaarElement.val(response.datum_eerste_toelating.substring(0, 4));
+								}
+							} else {
+								// CSS class on containers.
+								let merkElement = $('.wpkenteken-merk :input').first();
+								if (merkElement) {
+									merkElement.val(response.merk);
+								}
+								let modelElement = $('.wpkenteken-model :input').first();
+								if (modelElement) {
+									modelElement.val(response.handelsbenaming);
+								}
+								let bouwjaarElement = $('.wpkenteken-bouwjaar :input').first();
+								if (bouwjaarElement) {
+									bouwjaarElement.val(response.datum_eerste_toelating.substring(0, 4));
+								}
+							}
+
+						} else {
+							// No results. Empty form fields and return a warning.
+							if ($('.wpkenteken-kenteken').is("input")) {
+								// CSS class on elements.
+								let merkElement = $('.wpkenteken-merk');
+								if (merkElement) {
+									merkElement.val('');
+								}
+								let modelElement = $('.wpkenteken-model');
+								if (modelElement) {
+									modelElement.val('');
+								}
+
+								let bouwjaarElement = $('.wpkenteken-bouwjaar');
+								if (bouwjaarElement) {
+									bouwjaarElement.val('');
+								}
+							} else {
+								// CSS class on containers.
+								let merkElement = $('.wpkenteken-merk :input').first();
+								if (merkElement) {
+									merkElement.val('');
+								}
+								let modelElement = $('.wpkenteken-model :input').first();
+								if (modelElement) {
+									modelElement.val('');
+								}
+								let bouwjaarElement = $('.wpkenteken-bouwjaar :input').first();
+								if (bouwjaarElement) {
+									bouwjaarElement.val('');
+								}
+							}
+							$('#wpkenteken-warning').text(wpkenteken_ajax_object.no_results_message);
+						}
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						switch (jqXHR.statusCode) {
+							case 404:
+								$('#wpkenteken-warning').text(wpkenteken_ajax_object.not_found_error_message);
+								break;
+							case 500:
+								$('#wpkenteken-warning').text(wpkenteken_ajax_object.server_error_message);
+								break;
+							default:
+								$('#wpkenteken-warning').text(wpkenteken_ajax_object.default_error_message);
+						}
+					}
+				});
 			});
 		});
-	});
 	});
 
 })(jQuery);
