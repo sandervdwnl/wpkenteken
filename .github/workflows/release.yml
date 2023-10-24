@@ -43,7 +43,7 @@ jobs:
       - name: Publish release assets
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCES_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
           asset_path: dist/*
           asset_name: wpkenteken-v*.zip
