@@ -20,6 +20,7 @@ jobs:
 
     - name: Switch to the main branch
       run: |
+        git fetch origin main:main
         git checkout main
 
     - name: Exclude file from release
