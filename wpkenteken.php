@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -77,6 +76,5 @@ function run_wpkenteken() {
 
 	$plugin = new Wpkenteken();
 	$plugin->run();
-
 }
 run_wpkenteken();

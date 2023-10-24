@@ -44,14 +44,13 @@ class Wpkenteken_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of the plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
+		$this->version     = $version;
 	}
 
 	/**
@@ -74,7 +73,6 @@ class Wpkenteken_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wpkenteken-public.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -96,20 +94,32 @@ class Wpkenteken_Public {
 		 * class.
 		 */
 
-		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpkenteken-public.js', array('jquery'), $this->version, false );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpkenteken-public.js', array( 'jquery' ), $this->version, false );
 
 		wp_enqueue_script( $this->plugin_name );
 
-		$wpkenteken_ajax_nonce = wp_create_nonce( "wpkenteken_ajax_nonce" );
-		$ajax_url = admin_url( 'admin-ajax.php' );
-		$api_key = get_option( 'wpkenteken_rdw_api_key' ) ?? '';
+		$wpkenteken_ajax_nonce   = wp_create_nonce( 'wpkenteken_ajax_nonce' );
+		$ajax_url                = admin_url( 'admin-ajax.php' );
+		$api_key                 = get_option( 'wpkenteken_rdw_api_key' ) ?? '';
+		$no_results_msg          = esc_html__( 'No results found', 'wpkenteken' );
+		$invalid_message         = esc_html__( 'Input is invalid. Check your input and try again.', 'wpkenteken' );
+		$not_found_error_message = esc_html__( 'The resource could not be found.', 'wpkenteken' );
+		$server_error_message    = esc_html__( 'Internal server error.', 'wpkenteken' );
+		$default_error_message   = esc_html__( 'An unexpected error occurred.', 'wpkenteken' );
 
-		wp_localize_script( $this->plugin_name, 'wpkenteken_ajax_object', array(
-			'ajax_url' => $ajax_url,
-			'wpkenteken_ajax_nonce' => $wpkenteken_ajax_nonce,
-			'api_key' => $api_key
-		) );
-
+		wp_localize_script(
+			$this->plugin_name,
+			'wpkenteken_ajax_object',
+			array(
+				'ajax_url'                => $ajax_url,
+				'wpkenteken_ajax_nonce'   => $wpkenteken_ajax_nonce,
+				'api_key'                 => $api_key,
+				'no_results_message'      => $no_results_msg,
+				'invalid_message'         => $invalid_message,
+				'not_found_error_message' => $not_found_error_message,
+				'server_error_message'    => $server_error_message,
+				'default_error_message'   => $default_error_message,
+			)
+		);
 	}
-
 }
