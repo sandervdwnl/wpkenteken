@@ -16,10 +16,14 @@ jobs:
     - name: Set Git Identity
       run: |
         git config --global user.email "sandervdwindt@gmail.com"
-        git config --global user.name "sandervdwnl"
-        
+        git config --global user.name "sam"
+
+    - name: Switch to the main branch
+      run: |
+        git checkout main
+
     - name: Exclude file from release
       run: |
         git rm --cached phpstan.neon
         git commit -m "Exclude phpstan.neon from release" || true
-        git push
+        git push origin HEAD:main
