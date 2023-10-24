@@ -27,4 +27,7 @@ jobs:
       run: |
         git rm --cached phpstan.neon
         git commit -m "Exclude phpstan.neon from release" || true
+        git remote set-url origin "https://github.com/${{ github.repository }}.git"
         git push origin HEAD:main
+      env:
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
