@@ -41,10 +41,10 @@
 				if ($('#wpkenteken-warning').length === 0) {
 
 					if ($('.wpkenteken-kenteken').is("input")) {
-
+						// CSS class on elements.
 						$('.wpkenteken-kenteken').parent().append('<div id="wpkenteken-warning"></div>');
 					} else {
-
+						// CSS class on containers.
 						$('.wpkenteken-kenteken').append('<div id="wpkenteken-warning"></div>');
 					}
 				} else {
@@ -52,18 +52,15 @@
 					$('#wpkenteken-warning').text('');
 				}
 
-				console.log(wpkenteken_ajax_object);
-
 				// Validate input.
 
 				if ($('.wpkenteken-kenteken').is("input")) {
-					// CSS class on element.
+					// CSS class on elements.
 					var invoer = $('.wpkenteken-kenteken').val(); //CF7+NF
 				} else {
-					// CSS class on cantainer.
+					// CSS class on cantainers.
 					var invoer = $('.wpkenteken-kenteken :input').first().val();
 				}
-				// console.log(invoer);
 				let kenteken = invoer.replace(/[^0-9a-zA-Z]/g, "");
 				kenteken = kenteken.toUpperCase();
 				if (kenteken.length !== 6) {
@@ -85,9 +82,8 @@
 						var response = data[0];
 						if (typeof response !== 'undefined') {
 							// Results found. Fill form fields.
-							console.log('results');
 							if ($('.wpkenteken-kenteken').is("input")) {
-								console.log(' results elements');
+								// CSS class on elements.
 								let merkElement = $('.wpkenteken-merk');
 								if (merkElement) {
 									merkElement.val(response.merk);
@@ -102,7 +98,7 @@
 									bouwjaarElement.val(response.datum_eerste_toelating.substring(0, 4));
 								}
 							} else {
-								console.log(' results container');
+								// CSS class on containers.
 								let merkElement = $('.wpkenteken-merk :input').first();
 								if (merkElement) {
 									merkElement.val(response.merk);
@@ -120,7 +116,7 @@
 						} else {
 							// No results. Empty form fields and return a warning.
 							if ($('.wpkenteken-kenteken').is("input")) {
-								// Empty fields with CSS class on elements.
+								// CSS class on elements.
 								let merkElement = $('.wpkenteken-merk');
 								if (merkElement) {
 									merkElement.val('');
@@ -135,7 +131,7 @@
 									bouwjaarElement.val('');
 								}
 							} else {
-								// Empty fields with CSS class on containers.
+								// CSS class on containers.
 								let merkElement = $('.wpkenteken-merk :input').first();
 								if (merkElement) {
 									merkElement.val('');
