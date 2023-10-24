@@ -23,6 +23,9 @@ jobs:
         git fetch origin main:main
         git checkout main
 
+    - name: Update remote URL
+      run: git remote set-url origin "https://$GITHUB_ACTOR:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git"
+
     - name: Exclude file from release
       run: |
         git rm --cached phpstan.neon
