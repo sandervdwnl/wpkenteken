@@ -44,7 +44,7 @@ If possible, give the container of the field the CSS class. Otherwise give the f
 
 Important: fdr Ninja Forms you have to enable Dev Mode in Settings to add CSS classes.
 
-= The data is not retrieved. What is the problem? =
+= The data is not retrieved. What causes this the problem? =
 
 1. The plugin only supports Dutch license numbers.
 1. Check of your input is valid and six characters long.
