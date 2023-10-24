@@ -14,10 +14,10 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set Git Identity
-    run: |
-      git config --global user.email "sandervdwindt@gmail.com"
-      git config --global user.name "Sander van der Windt"
-
+      run: |
+        git config --global user.email "sandervdwindt@gmail.com"
+        git config --global user.name "sandervdwnl"
+        
     - name: Exclude file from release
       run: |
         git rm --cached phpstan.neon
