@@ -1,36 +1,51 @@
-name: Exclude File from Release
+name: Release
 
 on:
-  release:
-    types:
-      - created
+  push:
+    branches:
+      - main
 
 jobs:
-  exclude_file:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          npm install
+          npm run build
+      - name: Prepare release
+        run: |
+          echo "Excluding phpstan.neon from release"
+          git update-index --skip-worktree phpstan.neon
 
-    - name: Set Git Identity
-      run: |
-        git config --global user.email "sandervdwindt@gmail.com"
-        git config --global user.name "sam"
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            **Release ${{ github.ref }}**
 
-    - name: Switch to the main branch
-      run: |
-        git fetch origin main:main
-        git checkout main
+            * Includes the following changes:**
 
-    - name: Update remote URL
-      run: git remote set-url origin "https://$GITHUB_ACTOR:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git"
+            {{ commit_messages }}
 
-    - name: Exclude file from release
-      run: |
-        git rm --cached phpstan.neon
-        git commit -m "Exclude phpstan.neon from release" || true
-        git remote set-url origin "https://github.com/${{ github.repository }}.git"
-        git push origin HEAD:main
-      env:
-        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          draft: false
+          prerelease: false
+
+      - name: Publish release assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCES_TOKEN }}
+        with:
+          asset_path: dist/*
+          asset_name: wpkenteken-v*.zip
+          asset_content_type: application/zip
