@@ -28,7 +28,7 @@ jobs:
           draft: false
           prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCES_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCES_TOKEN }} # Use the correct secret name
 
       - name: Publish Release Assets
         id: upload-release-assets
@@ -39,7 +39,7 @@ jobs:
           asset_name: wpkenteken-v*.zip
           asset_content_type: application/zip
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCES_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCES_TOKEN }} # Use the correct secret name
 
       - name: Disable Resilience
         run: |
