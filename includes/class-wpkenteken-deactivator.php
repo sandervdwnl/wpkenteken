@@ -28,9 +28,16 @@ class Wpkenteken_Deactivator {
 	 * Long Description.
 	 *
 	 * @since    1.0.0
+	 * 
+	 * @return mixed
 	 */
 	public static function deactivate() {
 
+		$setting = get_option( 'wpkenteken_rdw_api_key' );
+
+		if ( strlen( $setting ) > 1 ) {
+			delete_option( 'wpkenteken_rdw_api_key' );
+		}
 	}
 
 }
