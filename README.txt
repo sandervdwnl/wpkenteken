@@ -53,5 +53,5 @@ Important: fdr Ninja Forms you have to enable Dev Mode in Settings to add CSS cl
 
 == Changelog ==
 
-= 1.0b =
-* Beta version of frst release.
+= 1.0 =
+* First release version.
