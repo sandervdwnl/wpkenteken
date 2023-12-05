@@ -15,7 +15,7 @@
  * Plugin Name:       WPKenteken
  * Plugin URI:        https://github.com/sandervdwnl/wpkenteken-plugin
  * Description:       Fill your form with the car information from the RDW Open Data API by filling the car license plate number.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Sander van der Windt
  * Author URI:        https://windt.dev/
  * Requires at least: 6.3
@@ -36,7 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WPKENTEKEN_VERSION', '1.0.0' );
+define( 'WPKENTEKEN_VERSION', '1.0.1' );
 
 /**
  * The code that runs during plugin activation.
