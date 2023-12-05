@@ -49,8 +49,11 @@ class Wpkenteken_Admin {
 
 	/**
 	 * Set class properties
+	 *
+	 * @since 1.0.0
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version The version of this plugin.
 	 */
-
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
@@ -131,17 +134,58 @@ class Wpkenteken_Admin {
 	 */
 	public function wpkenteken_options_page() {
 
+		// Get the active tab from the $_GET param.
+		$tab = null;
+		$tab = isset( $_GET['tab'] ) ? wp_unslash( $_GET['tab'] ) : 'default';
 		?>
-		<form action="options.php" method="post">
-		<?php
-		settings_fields( 'wpkenteken_options' ); // Outputs hidden inputs.
-		do_settings_sections( 'wpkenteken' ); // Outputs input fields.
-		?>
-		
-		<input name="Submit" type="submit" value="<?php esc_attr_e( 'Save Changes' ); ?>" />
-		</form>
+
+		<div class="wrap">
+
+			<?php
+			echo wp_kses_post( $this->wpkenteken_options_render_nav_tabs( $tab ) );
+
+			echo '<div class="tab-content">';
+
+			$this->wpkenteken_options_render_page( $tab );
+
+			?>
+		</div>
+		</div>
 		<?php
 	}
+
+	/**
+	 * Renders the admin navigation menu.
+	 * 
+	 * @since 1.0.1
+	 * 
+	 * @param string $tab The name of the current settings page.
+	 * 
+	 * @return mixed
+	 */
+	public function wpkenteken_options_render_nav_tabs( $tab ) {
+
+		$nav = '<nav class="nav-tab-wrapper">';
+
+		switch ( $tab ) {
+
+			case 'default':
+				$nav .= '<a href="?page=wpkenteken" class="nav-tab nav-tab-active">' . __( 'Settings', 'wpkenteken' ) . '</a>
+					<a href="?page=wpkenteken&tab=faq" class="nav-tab">' . __( 'FAQ', 'wpkenteken' ) . '</a>
+				</nav>';
+				return $nav;
+			case 'faq':
+				$nav .= '<a href="?page=wpkenteken" class="nav-tab">' . __( 'Settings', 'wpkenteken' ) . '</a>
+					<a href="?page=wpkenteken&tab=faq" class="nav-tab nav-tab-active">' . __( 'Faq', 'wpkenteken' ) . '</a>
+				</nav>';
+				return $nav;
+			case null:
+				$nav .= '</nav>';
+				return $nav;
+		}
+	}
+
+
 
 	/**
 	 * Registeres a setting for the DB.
@@ -184,9 +228,9 @@ class Wpkenteken_Admin {
 
 	/**
 	 * Callback for options section output.
-	 * 
+	 *
 	 * @since 1.0
-	 * 
+	 *
 	 * @return void
 	 */
 	public function wpkenteken_add_settings_section_callback() {
@@ -196,9 +240,9 @@ class Wpkenteken_Admin {
 	/**
 	 * Callback for options field output.
 	 * This adds the fields to the settings form.
-	 * 
+	 *
 	 * @ since 1.0
-	 * 
+	 *
 	 * @return void
 	 */
 	public function wpkenteken_add_settings_field_callback() {
@@ -207,5 +251,35 @@ class Wpkenteken_Admin {
 		?>
 		<input type="text" name="wpkenteken_rdw_api_key" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>">
 		<?php
+	}
+
+	/**
+	 * Render the settings page page.
+	 * 
+	 * @since 1.0.1
+	 * 
+	 * @param string $tab The name of the current settings page.
+	 *
+	 * @return void
+	 */
+	public function wpkenteken_options_render_page( $tab ) {
+
+		switch ( $tab ) {
+
+			case 'default':
+				echo '<form action="options.php" method="post">';
+				settings_fields( 'wpkenteken_options' ); // Outputs hidden inputs.
+				do_settings_sections( 'wpkenteken' ); // Outputs input fields.
+				echo '<input name="Submit" type="submit" value="';
+				esc_attr_e( 'Save Changes' );
+				echo '"/>';
+				echo '</form>';
+				break;
+			case 'faq':
+				require 'assets/faq.html';
+				break;
+			case null:
+				return;
+		}
 	}
 }

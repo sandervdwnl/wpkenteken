@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blank WordPress Pot v1.0.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2023-10-23 19:58-0400\n"
+"POT-Creation-Date: 2023-12-05 11:50-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Your Team <translations@example.com>\n"
@@ -17,28 +17,40 @@ msgstr ""
 "X-Textdomain-Support: yesX-Generator: Poedit 1.6.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;"
-"_nx_noop:4c,1,2;_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;"
-"__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,"
+"_nc:4c,1,2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Generator: Poedit 3.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-wpkenteken-admin.php:133
-msgid "Save Changes"
-msgstr "Sla wijzigingen op"
+#: admin/class-wpkenteken-admin.php:172 admin/class-wpkenteken-admin.php:177
+msgid "Settings"
+msgstr "Instellingen"
 
-#: admin/class-wpkenteken-admin.php:154
+#: admin/class-wpkenteken-admin.php:173
+msgid "FAQ"
+msgstr "FAQ"
+
+#: admin/class-wpkenteken-admin.php:178
+msgid "Faq"
+msgstr "Faq"
+
+#: admin/class-wpkenteken-admin.php:209
 msgid "RDW API Key"
 msgstr "RDW API Sleutel"
 
-#: admin/class-wpkenteken-admin.php:165
+#: admin/class-wpkenteken-admin.php:220
 msgid "RDW Open Data API Key"
 msgstr "RDW Open Data API Sleutel"
 
-#: admin/class-wpkenteken-admin.php:177
+#: admin/class-wpkenteken-admin.php:236
 msgid "RDW Open Data API Settings"
 msgstr "RDW Open Data API Instellingen"
+
+#: admin/class-wpkenteken-admin.php:273
+msgid "Save Changes"
+msgstr "Sla wijzigingen op"
 
 #: admin/partials/wpkenteken-admin-display.php:19
 msgid "WPKenteken Options"
