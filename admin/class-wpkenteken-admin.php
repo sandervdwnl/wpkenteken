@@ -131,16 +131,35 @@ class Wpkenteken_Admin {
 	 */
 	public function wpkenteken_options_page() {
 
-		?>
+		// Get the active tab from the $_GET param.
+		$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : null;
+
+		if ( $tab === null ) {
+
+			?>
+		<div class="wrap">
+		<nav class="nav-tab-wrapper">
+			<a href="?page=wpkenteken" class="nav-tab nav-tab-active">Settings</a>
+			<a href="?page=wpkenteken&tab=faq" class="nav-tab">Faq</a>
+		</nav>
+		<div class="tab-content">
 		<form action="options.php" method="post">
-		<?php
-		settings_fields( 'wpkenteken_options' ); // Outputs hidden inputs.
-		do_settings_sections( 'wpkenteken' ); // Outputs input fields.
-		?>
+			<?php
+			settings_fields( 'wpkenteken_options' ); // Outputs hidden inputs.
+			do_settings_sections( 'wpkenteken' ); // Outputs input fields.
+			?>
 		
 		<input name="Submit" type="submit" value="<?php esc_attr_e( 'Save Changes' ); ?>" />
 		</form>
-		<?php
+		</div>
+		</div>
+		
+			<?php
+		}
+
+		if ( $tab === 'faq' ) {
+			$this->wpkenteken_render_faq_page();
+		}
 	}
 
 	/**
@@ -184,9 +203,9 @@ class Wpkenteken_Admin {
 
 	/**
 	 * Callback for options section output.
-	 * 
+	 *
 	 * @since 1.0
-	 * 
+	 *
 	 * @return void
 	 */
 	public function wpkenteken_add_settings_section_callback() {
@@ -196,9 +215,9 @@ class Wpkenteken_Admin {
 	/**
 	 * Callback for options field output.
 	 * This adds the fields to the settings form.
-	 * 
+	 *
 	 * @ since 1.0
-	 * 
+	 *
 	 * @return void
 	 */
 	public function wpkenteken_add_settings_field_callback() {
@@ -206,6 +225,28 @@ class Wpkenteken_Admin {
 		$setting = get_option( 'wpkenteken_rdw_api_key' );
 		?>
 		<input type="text" name="wpkenteken_rdw_api_key" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>">
+		<?php
+	}
+
+	/**
+	 * Render FAQ page
+	 *
+	 * @return mixed $output
+	 */
+	public function wpkenteken_render_faq_page() {
+		?>
+		<div class="wrap">
+			<div class="tab-content">
+				<nav class="nav-tab-wrapper">
+					<a href="?page=wpkenteken" class="nav-tab">Settings</a>
+					<a href="?page=wpkenteken&tab=faq" class="nav-tab nav-tab-active">Faq</a>
+				</nav>
+			<?php
+			require 'assets/faq.php';
+			?>
+		</div>
+		</div>
+		
 		<?php
 	}
 }
