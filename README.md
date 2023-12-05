@@ -66,4 +66,7 @@ unreachable. Try again later.
 
 == Changelog ==
 
+= 1.0.1 = \* Added FAQ and navigation to settings pages.
+
 = 1.0 = \* First release version.
+

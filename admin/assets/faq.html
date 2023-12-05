@@ -1,0 +1,30 @@
+<h3>Frequently Asked Questions</h3>
+
+<h4>Where can I get the API key?</h4>
+
+<p>Navigate to the <a href="https://dev.socrata.com/foundry/opendata.rdw.nl/qyrd-w56j" target="_blank">RDW Open Data API page</a> and choose <strong>'API'</strong>. There you can register for an API key. <br>
+When you have received the API key, go to WordPress admin and choose <strong>'Settings'</strong> and then <strong>'WPKenteken'</strong>. There you can fill in the API key and your key will be saved in the database.</p>
+
+<h4>How do I use the plugin?</h4>
+
+<p>Build a form with at least a field for the license number and other field you like to have filled in automatically. For now the following fields with the fowllowing CSS classes are supported:</p>
+<ul>
+    <li>A field for the license number with CSS class <strong>'wpkenteken-kenteken'</strong>.</li>
+    <li>A field for the car's brand with CSS class <strong>'wpkenteken-merk'</strong>.</li>
+    <li>A field for the car's model with CSS class <strong>'wpkenteken-model'</strong>.</li>
+    <li>A field for the car's production year with CSS class <strong>'wpkenteken-bouwjaar'</strong>.</li>
+</ul>
+
+<p>This plugin is tested with </b>Contact Form 7</b>, <b>Ninja Forms</b> and <b>WP Forms</b>. 
+If possible, give the container of the field the CSS class. Otherwise give the field itself the CSS class.</p>
+
+<p><strong>Important: for <b>Ninja Forms</b> you have to enable Dev Mode in Settings to add CSS classes.</strong></p>
+
+<h4>The data is not retrieved. What causes this the problem?</h4>
+
+<ol>
+    <li>The plugin only supports Dutch license numbers.</li>
+    <li>Check of your input is valid and six characters long.</li>
+    <li>Check of your form contains the correct CSS classes, as described above.</li>
+    <li>Sometimes the API can be unreachable. Try again later.</li>
+</ol>
